@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"
+    ></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
+    />
+    <link rel="stylesheet" href={{ url_for('static', filename='style/main.css')
+    }}/> <link rel="stylesheet" href={{ url_for('static',
+    filename='style/admin.css') }}/>
+    <title>Guest</title>
+  </head>
+  <body>
+    <div class="topnav">
+      <a href="/">Hotel Management System</a>
+    </div>
+    <div class="container">
+      <div class="sub-container">
+        <div class="box">
+          <div class="row">
+            <h3>If you already booked, Check your reservation</h3>
+            <form method="post">
+              <label>Reservation ID:</label>
+              <input
+                type="number"
+                placeholder="id"
+                name="id"
+                value="{{ request.form[id] }} "
+              />
+              <br />
+              <br />
+              <button type="submit">Check</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="sub-container">
+        <div class="box">
+          <div class="row" id="geust_row">
+            {% if 'room_id' in data.keys() %}
+            <p>
+              Your room is {{data['room_id']}} at {{data['hotel']}}, between
+              {{data['checkin']}} to {{data['checkout']}}
+              <br />
+              If you have any questions, please contact reception
+              {{data['reception_id']}}
+            </p>
+
+            {% endif %}
+
+            <h3>Book a new reservation!</h3>
+
+            <form id="guest_form" method="post">
+              <label>Hotel:</label>
+              <div style="padding-left: 2%">
+                {% for hotel in data['hotels'] %}
+                <input
+                  type="radio"
+                  name="hotel"
+                  id="{{hotel}}"
+                  value="{{ hotel }}"
+                  required
+                />
+                <label>
+                  {{hotel}} {% for room in data['rooms'] %} {% if hotel ==
+                  room['hotel'] %} (Room available: {{ room['room_number'] }})
+                  {% endif%} {% endfor %}
+                </label>
+                <br />
+                <br />
+                {% endfor %}
+              </div>
+              <br />
+              <label for="first_name">first name:</label>
+              <input
+                type="text"
+                id="first_name"
+                name="first_name"
+                value="{{ request.form[first_name] }}"
+                required
+              />
+              <br />
+              <br />
+              <label for="last_name">last name:</label>
+              <input
+                type="text"
+                id="last_name"
+                name="last_name"
+                value="{{ request.form[last_name] }}"
+                required
+              />
+              <br />
+              <br />
+              <label for="phone">Phone:</label>
+              <input
+                type="text"
+                id="phone"
+                name="phone"
+                value="{{ request.form[phone] }}"
+                required
+              />
+              <br />
+              <br />
+              <label for="duration">Duration:</label>
+              <input
+                type="text"
+                name="duration"
+                value="{{ request.form[checkin] }}"
+              />
+              <br />
+              <br />
+              <br />
+
+              <button id="guest_btn" type="submit">Check</button>
+            </form>
+
+            {% if 'reservation_id' in data.keys() %}
+            <p>
+              Your reservation ID is {{ data['reservation_id'] }}, please check
+              later use this id, a reception will arrange a room for you.
+            </p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      $(function () {
+        $('input[name="duration"]').daterangepicker(
+          {
+            opens: "left",
+          },
+          function (start, end, label) {
+            console.log(
+              "A new date selection was made: " +
+                start.format("YYYY-MM-DD") +
+                " to " +
+                end.format("YYYY-MM-DD")
+            );
+          }
+        );
+      });
+    </script>
+  </body>
+</html>

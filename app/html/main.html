@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href={{ url_for('static', filename='style/main.css')
+    }} />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CMPT354</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="topnav">
+        <a class="active" href="/">Hotel Management System</a>
+      </div>
+      <div class="box" id="main_box">
+        <div class="row" id="main_row">
+          <h1>Welcome to Hotel Management System</h1>
+          <h2>are you:</h2>
+          <button onclick="location.href='admin/'">Employee</button>
+          <button onclick="location.href='guest/'">Guest</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href={{ url_for('static', filename='style/main.css')
+    }}/>
+    <link rel="stylesheet" href={{ url_for('static', filename='style/admin.css')
+    }}/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <div class="topnav">
+      <a href="/">Hotel Management System</a>
+    </div>
+    <div class="container">
+      <div class="sub-container">
+        <div class="box">
+          <div class="row">
+            <h2>Hello Admin, <p>total reservations:{{ data['summary'] }}</p></h2>
+          </div>
+        </div>
+      </div>
+      <div class="sub-container">
+        <h3>Please assign a room for new guest:</h3>
+        <table class="styled-table" style="width:100%">
+          <thead>
+            <tr>
+                <th id="myDIV">first name</th>
+                <th>last name</th>
+                <th>hotel</th>
+                <th>start date</th>
+                <th>end date</th>
+                <th style="width:15%;">Assign</th>
+            </tr> 
+          </thead>
+              {% for row in data['reservation'] %}
+          <tbody>
+            <tr>
+              <td>{{ row['first_name'] }}</td>
+              <td>{{ row['last_name'] }}</td>
+              <td>{{ row['hotel'] }}</td>
+              <td>{{ row['checkin'] }}</td>
+              <td>{{ row['checkout'] }}</td>
+              <td><a href="{{ url_for('update', id=row.id) }}">update</i></a></td>
+            </tr>
+          </tbody>
+            {% endfor %}
+        </table>
+      </div>
+      <div class="sub-container">
+        <h3>Reservations with a room:</h4>
+        <table class="styled-table" style="width:100%">
+          <thead>
+            <tr>
+              <th>first name</th>
+              <th>last name</th>
+              <th>hotel</th>
+              <th>start date</th>
+              <th>end date</th>
+              <th style="width:15%;">Assign</th>
+            </tr>  
+          </thead>  
+          {% for row in data['all'] %}
+          <tbody>
+            <tr>
+              <td>{{ row['first_name'] }}</td>
+              <td>{{ row['last_name'] }}</td>
+              <td>{{ row['hotel'] }}</td>
+              <td>{{ row['checkin'] }}</td>
+              <td>{{ row['checkout'] }}</td>
+              <td><a href="{{ url_for('delete', id=row.id) }}">delete</i></a></td>
+            </tr>
+          </tbody>
+          {% endfor %}
+        </table style="width:10px">
+      </div>
+      <div class="sub-container">
+        <div class="box">
+          <div class="row">
+            <h4>Visitor have been all hotels we have: what do you want to see from them?</h4>
+            <form method="post">
+              <input type="text" id='user_selection' name='user_selection' value="{{ request.form[user_selection] }} "/>
+              <button type="submit">query</button>
+            </form>
+            {% for i in data['super_visitor'] %}
+              <p>{{ i['last_name'] }} {{ i['first_name']}} {{ i['phone']}}</p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+  </body>
+</html>
+
+

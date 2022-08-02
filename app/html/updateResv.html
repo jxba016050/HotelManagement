@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href={{ url_for('static', filename='style/main.css')
+    }}/> <link rel="stylesheet" href={{ url_for('static',
+    filename='style/admin.css') }}/>
+    <title>Update Reservation</title>
+  </head>
+  <body>
+    <div class="topnav">
+      <a href="/">Hotel Management System</a>
+      <a href="/admin/">Admin</a>
+    </div>
+    {% if data['rooms']|length > 0%}
+    <div class="sub-container" style=>
+      <div class="box">
+        <div class="row">
+          <form method="post">
+            <label>Please select a room:</label>
+            <div style="padding-left: 2%">
+              {% for room in data['rooms'] %}
+              <input
+                type="radio"
+                name="room"
+                id="{{room}}"
+                value="{{ room }}"
+                required
+              />
+              <label>{{room}}</label>
+              <br />
+              {% endfor %}
+            </div>
+            <br/>
+            <label for="employee">Your employee id:</label>
+            <input
+              type="number"
+              id="employee"
+              name="employee"
+              value="{{ request.form[employee] }}"
+              required
+            />
+            <br />
+            <br />
+            <button type="submit">Submit</button>
+          </form>
+          {% else %}
+          <p>Sorry, no room availble...</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
